@@ -24,6 +24,14 @@ DATASETS = (
 
 DATASETS.build()
 
+MAINTENANCE = (
+    Builder()
+    .addPage("app/maintenance.html")
+    .addTitle("maintenance")
+)
+
+MAINTENANCE.build()
+
 LOGIN = (
     Builder()
     .addPage("app/login.html")

@@ -39,6 +39,16 @@ class TemplateView:
 
         return Templates.DATASETS.render_page(request)
 
+    def maintenance(self, request):
+        """Renders the maintenance page."""
+
+        assert isinstance(request, HttpRequest)
+
+        if not request.user.is_authenticated:
+            return redirect("login")
+
+        return Templates.MAINTENANCE.render_page(request)
+
     def login(self, request):
         assert isinstance(request, HttpRequest)
 

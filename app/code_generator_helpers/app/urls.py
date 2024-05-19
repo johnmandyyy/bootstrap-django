@@ -23,6 +23,7 @@ template_patterns = [
     path("index/", MainView.index, name="index"),
     path("reports/", MainView.reports, name="reports"),
     path("datasets/", MainView.datasets, name="datasets"),
+    path("maintenance/", MainView.maintenance, name="maintenance"),
     path("admin/", admin.site.urls),
       path("logout/", MainView.user_logout, name="logout"),
       path("login/", MainView.login, name="login")

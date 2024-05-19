@@ -26,7 +26,7 @@ class Builder:
     def __init__(self):
         self.instance = TemplateBuilder()
         self.Page = None
-        self.Title = None
+        self.Context = None
 
     def addPage(self, ingridients) -> TemplateBuilder:
         self.instance.setPage(ingridients)
@@ -39,17 +39,18 @@ class Builder:
     def build(self) -> TemplateBuilder:
         """A method used to build the object."""
         self.Page = self.instance.getProps()["page"]
-        self.Title = {
+        self.Context = {
             "title": self.instance.getProps()["title"],
             "date": str(datetime.now()),
+            "obj_name": str(self.instance.getProps()["title"]).lower()
         }
         return self.instance
 
     def render_page(self, request):
         """ A method to render when there is an error in the page. """
         try:
-            print(request, self.Page, self.Title)
-            return render(request, self.Page, self.Title)
+            print(request, self.Page, self.Context)
+            return render(request, self.Page, self.Context)
         except Exception as e:
             # Render an Error Page
             print(e)

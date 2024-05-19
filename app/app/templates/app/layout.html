@@ -7,17 +7,16 @@
         <title>{{ title }} - My Django Application</title>
 
         {% load static %}
-        <link rel="icon" href="{% static 'app/favicon.ico' %}"
-            type="image/x-icon">
+        <link rel="icon" href="{% static 'app/favicon.ico' %}" type="image/x-icon">
 
-        <link rel="stylesheet"
-            href="{% static 'app/bootstrap/css/bootstrap.min.css' %}">
-        <link rel="stylesheet"
-            href="{% static 'app/user-defined/css/customized.css' %}">
-
+        <link rel="stylesheet" href="{% static 'app/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'app/user-defined/css/customized.css' %}">
         <link rel="stylesheet" href="{% static 'app/fa/css/all.css' %}">
-        <link rel="stylesheet"
-            href="{% static 'app/datatables/datatables.min.css' %}">
+        <link rel="stylesheet" href="{% static 'app/datatables/datatables.min.css' %}">
+
+        <script src="{% static 'app/scripts/global.js' %}"></script>
+        <script src="{% static 'app/scripts/axios.min.js' %}"></script>
+        <script src="{% static 'app/scripts/vue.min.js' %}"></script>
 
         <script src="{% static 'app/bootstrap/js/bootstrap.js' %}"></script>
         <script src="{% static 'app/jquery/jquery-3.6.0.min.js' %}"></script>
