@@ -20,12 +20,13 @@ api_patterns = [
 ]
 
 template_patterns = [
-    path("index/", MainView.index, name="index"),
-    path("reports/", MainView.reports, name="reports"),
-    path("datasets/", MainView.datasets, name="datasets"),
+    path("home/", MainView.home, name="home"),
+    path("dataset/", MainView.dataset, name="dataset"),
+    path("credibility/", MainView.credibility, name="credibility"),
     path("admin/", admin.site.urls),
-      path("logout/", MainView.user_logout, name="logout"),
-      path("login/", MainView.login, name="login")
+    path("logout/", MainView.user_logout, name="logout"),
+    path("login/", MainView.login, name="login"),
+    path("authenticate_user/", MainView.authenticate_user, name="authenticate_user")
 ]
 
 urlpatterns = template_patterns + api_patterns

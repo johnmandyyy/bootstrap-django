@@ -4,7 +4,7 @@ def generate_template_class(object_name, methods, class_desc="A template level v
     class_template = """from django.shortcuts import redirect
 from django.http import HttpRequest
 import app.constants.template_constants as Templates
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
 
 class TemplateView:
     \"\"\"Built in Template Renderer View Level\"\"\"
@@ -46,25 +46,24 @@ class TemplateView:
         if request.user.is_authenticated == False:
             return Templates.LOGIN.render_page(request)
 
-        return redirect("?")
+        return redirect("home") #Change the home to your index page.
 
     def authenticate_user(self, request):
         try:
-            if request.method == 'POST':
-                
-                username = request.POST.get('username')
-                password = request.POST.get('password')
-                user = authenticate(request, username=username, password=password)
+            if request.method == "POST":
 
+                username = request.POST.get("username")
+                password = request.POST.get("password")
+                user = authenticate(request, username=username, password=password)
                 if user is not None:
-                    login(request, user)
-                    return redirect('home')
-                
+                    login(request, user)  # Library level not instance.
+                    return redirect("index")  # Change the home to your index page.
+
         except Exception as e:
             pass
 
-        return redirect('login')
-            
+        return redirect("login")
+
     def user_logout(self, request):
         logout(request)
         return redirect("login")
@@ -75,6 +74,7 @@ class TemplateView:
 
 def generate_builder_code(object_name, methods):
     builder_template = """from app.builder.template_builder import Builder
+from app.constants import app_constants
 """
     builder_code = ""
     for method in methods:
@@ -101,8 +101,15 @@ LOGIN = (
     Builder()
     .addPage("app/login.html")
     .addTitle("login")
+    .addContext(
+        {
+            "title": "Login - Page",
+            "obj_name": "login",
+            "app_name": app_constants.SOFTWARE_NAME,
+            "app_desc": app_constants.SOFTWARE_DESCRIPTION
+        }
+    )
 )
-
 LOGIN.build()
 """
 
@@ -168,7 +175,7 @@ template_patterns = [
         method_name = method.split(":")[0] if ":" in method else method
         url_patterns_code += f'    path("{method_name}/", MainView.{method_name}, name="{method_name}"),\n'
 
-    url_patterns_code += """    path("admin/", admin.site.urls),\n      path("logout/", MainView.user_logout, name="logout"),\n      path("login/", MainView.login, name="login")
+    url_patterns_code += """    path("admin/", admin.site.urls),\n    path("logout/", MainView.user_logout, name="logout"),\n    path("login/", MainView.login, name="login"),\n    path("authenticate_user/", MainView.authenticate_user, name="authenticate_user")
 ]
 
 urlpatterns = template_patterns + api_patterns

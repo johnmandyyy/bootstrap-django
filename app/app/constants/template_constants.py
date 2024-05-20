@@ -1,33 +1,41 @@
 from app.builder.template_builder import Builder
+from app.constants import app_constants
 
-INDEX = (
+HOME = (
     Builder()
-    .addPage("app/index.html")
-    .addTitle("index")
+    .addPage("app/home.html")
+    .addTitle("home")
 )
 
-INDEX.build()
+HOME.build()
 
-REPORTS = (
+DATASET = (
     Builder()
-    .addPage("app/reports.html")
-    .addTitle("reports")
+    .addPage("app/dataset.html")
+    .addTitle("dataset")
 )
 
-REPORTS.build()
+DATASET.build()
 
-DATASETS = (
+CREDIBILITY = (
     Builder()
-    .addPage("app/datasets.html")
-    .addTitle("datasets")
+    .addPage("app/credibility.html")
+    .addTitle("credibility")
 )
 
-DATASETS.build()
+CREDIBILITY.build()
 
 LOGIN = (
     Builder()
     .addPage("app/login.html")
     .addTitle("login")
+    .addContext(
+        {
+            "title": "Login - Page",
+            "obj_name": "login",
+            "app_name": app_constants.SOFTWARE_NAME,
+            "app_desc": app_constants.SOFTWARE_DESCRIPTION
+        }
+    )
 )
-
 LOGIN.build()
