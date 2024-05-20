@@ -16,3 +16,5 @@ Inclusions:
 - Data Tables
 - Encryptable / Decryptable API Template
 
+## Run Generator
+- python template_views_generate.py <module_1> <module_2> <module_3> <module_4>
