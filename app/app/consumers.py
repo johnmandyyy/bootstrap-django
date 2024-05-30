@@ -18,6 +18,7 @@ class YourConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({
                 'message': message
             }))
+            
         except Exception as e:
             await self.send(text_data=json.dumps({
                 'message': "Invalid request."
