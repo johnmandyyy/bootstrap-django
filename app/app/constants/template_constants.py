@@ -1,5 +1,6 @@
 from app.builder.template_builder import Builder
 from app.constants import app_constants
+from app.builder.forms_builder import FormBuilder
 
 HOME = (
     Builder()
@@ -9,19 +10,15 @@ HOME = (
 
 HOME.build()
 
-DATASET = (
-    Builder()
-    .addPage("app/dataset.html")
-    .addTitle("dataset")
-)
+DATASETS = Builder().addPage("app/datasets.html").addTitle("datasets")
 
-DATASET.build()
+DATASETS.build()
 
-CREDIBILITY = (
-    Builder()
-    .addPage("app/credibility.html")
-    .addTitle("credibility")
-)
+LIBRARY = Builder().addPage("app/library.html").addTitle("library")
+
+LIBRARY.build()
+
+CREDIBILITY = Builder().addPage("app/credibility.html").addTitle("credibility")
 
 CREDIBILITY.build()
 
@@ -34,8 +31,10 @@ LOGIN = (
             "title": "Login - Page",
             "obj_name": "login",
             "app_name": app_constants.SOFTWARE_NAME,
-            "app_desc": app_constants.SOFTWARE_DESCRIPTION
+            "app_desc": app_constants.SOFTWARE_DESCRIPTION,
         }
     )
 )
 LOGIN.build()
+
+

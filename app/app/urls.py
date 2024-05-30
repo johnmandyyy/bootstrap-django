@@ -16,12 +16,13 @@ get_update_destroy_patterns = URLConstants.GenericAPI.retrieve_update_delete_pat
 
 api_patterns = [
     path("api/", include((list_create_patterns, app_constants.APP_NAME))),
-    path("api/", include((get_update_destroy_patterns, app_constants.APP_NAME))),
+    path("api/", include((get_update_destroy_patterns, app_constants.APP_NAME)))
 ]
 
 template_patterns = [
     path("home/", MainView.home, name="home"),
-    path("dataset/", MainView.dataset, name="dataset"),
+    path("datasets/", MainView.datasets, name="datasets"),
+    path("library/", MainView.library, name="library"),
     path("credibility/", MainView.credibility, name="credibility"),
     path("admin/", admin.site.urls),
     path("logout/", MainView.user_logout, name="logout"),

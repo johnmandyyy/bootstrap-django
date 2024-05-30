@@ -62,9 +62,11 @@ class Builder:
     def render_page(self, request):
         """A method to render when there is an error in the page."""
         try:
+
             return render(request, self.Page, self.Context)
         except Exception as e:
             # Render an Error Page
+            print(e)
             return render(
                 request,
                 "app/constants/error.html",

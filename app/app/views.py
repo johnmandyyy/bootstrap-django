@@ -3,6 +3,7 @@ from django.http import HttpRequest
 import app.constants.template_constants as Templates
 from django.contrib.auth import logout, authenticate, login
 
+
 class TemplateView:
     """Built in Template Renderer View Level"""
 
@@ -19,15 +20,25 @@ class TemplateView:
 
         return Templates.HOME.render_page(request)
 
-    def dataset(self, request):
-        """Renders the dataset page."""
+    def datasets(self, request):
+        """Renders the datasets page."""
 
         assert isinstance(request, HttpRequest)
 
         if not request.user.is_authenticated:
             return redirect("login")
 
-        return Templates.DATASET.render_page(request)
+        return Templates.DATASETS.render_page(request)
+
+    def library(self, request):
+        """Renders the library page."""
+
+        assert isinstance(request, HttpRequest)
+
+        if not request.user.is_authenticated:
+            return redirect("login")
+
+        return Templates.LIBRARY.render_page(request)
 
     def credibility(self, request):
         """Renders the credibility page."""

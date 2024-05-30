@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.apps import apps
 from app.models import models
-
+from app.constants import app_constants
 class ModelHelpers:
     """ A predefined for model helpers. """
     def __init__(self):
@@ -10,7 +10,6 @@ class ModelHelpers:
 
     def get_model_instance(self, model_name):
         try:
-            print(model_name)
             return apps.get_model("app", model_name)
         except Exception as e:
             return None
@@ -23,14 +22,7 @@ class ModelHelpers:
 
         for model in installed_models:
             # Get the name of the model and append it to the list
-            if model.__name__ not in [
-                "LogEntry",
-                "Permission",
-                "Group",
-                "User",
-                "ContentType",
-                "Session",
-            ]:
+            if model.__name__ not in app_constants.EXCEPT_MODELS:
                 self.predefined_models.append(model.__name__)
 
 class SerializerHelpers:
