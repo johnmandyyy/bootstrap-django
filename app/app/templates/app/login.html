@@ -1,7 +1,13 @@
 {% extends "app/layout.html" %}
 {% load static %}
-
 {% block content %}
+
+<style>
+    .bs-teal {
+      background-color: var(--bs-orange);
+      color: white;
+    }
+  </style>
 
 <div class="row align-items-center g-lg-5 py-5">
     <div class="col-lg-7 text-center text-lg-start">
@@ -28,7 +34,7 @@
                     Remember me
                 </label>
             </div>
-            <button class="w-100 btn btn-lg btn-primary"
+            <button class="w-100 btn btn-lg btn bs-teal"
                 type="submit">Sign up</button>
             <hr class="my-4">
             <small class="text-muted">By clicking Sign up, you agree
