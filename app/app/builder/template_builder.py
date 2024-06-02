@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from datetime import datetime
-
+from app.logs.logging import Logger
+from app.constants import app_constants
 
 class TemplateBuilder:
     """A template builder class."""
@@ -61,13 +62,26 @@ class Builder:
 
     def render_page(self, request):
         """A method to render when there is an error in the page."""
+        
         try:
+            a = 1 + "E"
+            page = render(request, self.Page, self.Context)
 
-            return render(request, self.Page, self.Context)
+            Logger(
+                message="Loaded Page",
+                source=__name__,
+                request=request,
+                level=app_constants.LOG_LEVEL.INFO,
+                log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
+                response_status= page.status_code,
+            )
+            
+            return page
+
         except Exception as e:
             # Render an Error Page
-            print(e)
-            return render(
+
+            page = render(
                 request,
                 "app/constants/error.html",
                 {
@@ -76,3 +90,16 @@ class Builder:
                     "message": str(e),
                 },
             )
+
+            Logger(
+                message="Loaded Page Handler Page",
+                source=__name__,
+                request=request,
+                level=app_constants.LOG_LEVEL.ERROR,
+                log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
+                exception=e,
+                response_status= page.status_code
+            )
+
+            return page
+

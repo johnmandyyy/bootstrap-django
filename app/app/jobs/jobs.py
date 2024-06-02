@@ -1,5 +1,7 @@
-from django.conf import settings
+class Tasks:
 
-def sample_job():
-    print("Test job")
-        
+    def __init__(self):
+        pass
+
+    def sample_job(self):
+        print("Executing Sample test.")

@@ -56,7 +56,7 @@ class TemplateView:
         if request.user.is_authenticated == False:
             return Templates.LOGIN.render_page(request)
 
-        return redirect("home") #Change the home to your index page.
+        return redirect("home")  # Change the home to your index page.
 
     def authenticate_user(self, request):
         try:
@@ -77,5 +77,3 @@ class TemplateView:
     def user_logout(self, request):
         logout(request)
         return redirect("login")
-
-    

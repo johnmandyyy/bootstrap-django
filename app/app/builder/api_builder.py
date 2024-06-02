@@ -24,6 +24,13 @@ class APIBuilder:
             serializer_class = SerializerHelpers().create_serializer(
                 self.model_name, self.app_name
             )
+            
+            def get(self, request, *args, **kwargs):
+                print(request.META)
+                return super().get(request, *args, **kwargs)
+
+            def post(self, request, *args, **kwargs):
+                return super().post(request, *args, **kwargs)
 
         class GetUpdateDestroy(RetrieveUpdateDestroyAPIView):
 
