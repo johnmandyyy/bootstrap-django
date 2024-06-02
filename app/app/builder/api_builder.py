@@ -1,10 +1,12 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from ..models import *
+from app.models import *
 from app.helpers.helpers import SerializerHelpers
-from ..api import *
+from app.api import *
 from django.db import models
 from app.logs.logging import Logger
 from app.constants import app_constants
+import json
+
 
 class APIBuilder:
 
@@ -36,7 +38,10 @@ class APIBuilder:
                     level=app_constants.LOG_LEVEL.INFO,
                     log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
                     response_status= response.status_code,
+                    response_data = response.data
                 )
+
+                print(response)
 
                 return response
 

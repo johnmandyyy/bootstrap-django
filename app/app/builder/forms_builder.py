@@ -26,7 +26,8 @@ class FormBuilder:
 
             return None
 
-    def get_all_forms(self):
+    def get_all_forms(self) -> list:
+        """Return all forms in string name inside list."""
         return self.__available_forms
 
     def get_available_forms(self):

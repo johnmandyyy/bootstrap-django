@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.http import HttpRequest
 import app.constants.template_constants as Templates
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
 
 class TemplateView:
     """Built in Template Renderer View Level"""

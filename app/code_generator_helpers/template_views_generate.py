@@ -75,6 +75,7 @@ class TemplateView:
 def generate_builder_code(object_name, methods):
     builder_template = """from app.builder.template_builder import Builder
 from app.constants import app_constants
+from app.builder.forms_builder import FormBuilder
 """
     builder_code = ""
     for method in methods:
@@ -120,6 +121,7 @@ LOGIN.build()
 def generate_html_vue_code(filename):
     return """{% extends "app/layout.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 <div id="{{ obj_name }}">
@@ -153,7 +155,7 @@ Definition of urls for app.
 from django.urls import path, include
 from django.contrib import admin
 from app.views import TemplateView
-from .api import *
+from app.api import *
 import app.constants.url_constants as URLConstants
 from app.constants import app_constants
 

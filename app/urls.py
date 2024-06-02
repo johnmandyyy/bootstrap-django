@@ -5,7 +5,7 @@ Definition of urls for app.
 from django.urls import path, include
 from django.contrib import admin
 from app.views import TemplateView
-from .api import *
+from app.api import *
 import app.constants.url_constants as URLConstants
 from app.constants import app_constants
 
