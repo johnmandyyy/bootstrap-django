@@ -3,7 +3,8 @@ from ..models import *
 from app.helpers.helpers import SerializerHelpers
 from ..api import *
 from django.db import models
-
+from app.logs.logging import Logger
+from app.constants import app_constants
 
 class APIBuilder:
 
@@ -26,11 +27,32 @@ class APIBuilder:
             )
             
             def get(self, request, *args, **kwargs):
-                print(request.META)
-                return super().get(request, *args, **kwargs)
+                
+                response = super().get(request, *args, **kwargs)
+                Logger(
+                    message="GET Endpoint / Executed",
+                    source=__name__,
+                    request=request,
+                    level=app_constants.LOG_LEVEL.INFO,
+                    log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
+                    response_status= response.status_code,
+                )
+
+                return response
 
             def post(self, request, *args, **kwargs):
-                return super().post(request, *args, **kwargs)
+
+                response = super().post(request, *args, **kwargs)
+                Logger(
+                    message="POST Endpoint / Executed",
+                    source=__name__,
+                    request=request,
+                    level=app_constants.LOG_LEVEL.INFO,
+                    log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
+                    response_status= None,
+                )
+                
+                return response
 
         class GetUpdateDestroy(RetrieveUpdateDestroyAPIView):
 

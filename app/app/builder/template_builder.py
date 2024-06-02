@@ -64,7 +64,7 @@ class Builder:
         """A method to render when there is an error in the page."""
         
         try:
-            a = 1 + "E"
+
             page = render(request, self.Page, self.Context)
 
             Logger(
