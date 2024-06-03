@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.apps import apps
 from app.models import models
 from app.constants import app_constants
+
 class ModelHelpers:
     """
     A predefined for model helpers. 
@@ -9,7 +10,9 @@ class ModelHelpers:
     constants.
     """
     def __init__(self) -> None:
+        
         self.predefined_models = None
+        self.all_models = []
         self.__initialize()
 
     def get_model_instance(self, model_name: str) -> models:
@@ -28,6 +31,7 @@ class ModelHelpers:
         for model in installed_models:
             # Get the name of the model and append it to the list
             if model.__name__ not in app_constants.EXCEPT_MODELS:
+                self.all_models.append(model)
                 self.predefined_models.append(model.__name__)
 
 class SerializerHelpers:
@@ -41,7 +45,7 @@ class SerializerHelpers:
         Create an automatic serializer for your API.
         """
         django_model = apps.get_model(app_label=str(app_name), model_name=model_name)
-        print(django_model, "Autoserializer was built.")
+        #print(django_model, "Autoserializer was built.")
 
         class AutoSerializer(serializers.ModelSerializer):
 

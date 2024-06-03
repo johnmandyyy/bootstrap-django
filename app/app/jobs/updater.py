@@ -12,5 +12,5 @@ class Scheduler:
 		scheduler = BackgroundScheduler()
 		tasks = jobs.Tasks()
 
-		scheduler.add_job(tasks.sample_job, 'interval', seconds=5)
+		scheduler.add_job(tasks.sample_job, 'interval', seconds=60)
 		scheduler.start()
