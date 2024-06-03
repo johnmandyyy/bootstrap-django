@@ -6,6 +6,9 @@ from django.db import models
 from app.logs.logging import Logger
 from app.constants import app_constants
 from datetime import datetime
+from app.helpers.authentication import Token
+from rest_framework.response import Response as DjangoResponse
+from django.contrib.auth import logout, authenticate, login
 
 class APIBuilder:
 
@@ -18,7 +21,7 @@ class APIBuilder:
         self.list_create = None
         self.get_update_destroy = None
 
-    def build(self):
+    def build(self, has_token = False):
 
         class ListCreate(ListCreateAPIView):
 
@@ -27,9 +30,30 @@ class APIBuilder:
                 self.model_name, self.app_name
             )
             
+            def __is_permissible(self, request):
+                
+                if request.headers.get('Authorization') != None:
+                    return Token().token_is_valid(request.headers.get('Authorization', '').split(' ')[1])
+                
+            def __get_user_from_token(self, request):
+                if request.headers.get('Authorization') != None:
+                    return Token().get_user(request.headers.get('Authorization', '').split(' ')[1])
+
             def get(self, request, *args, **kwargs):
+
+                response = None
                 start_time = datetime.now()
-                response = super().get(request, *args, **kwargs)
+
+                if self.__is_permissible(request) == True:
+                    response = super().get(request, *args, **kwargs)
+                    if not request.user.is_authenticated:
+                        login(request, self.__get_user_from_token(request))
+                else:
+                    logout(request)
+                    response = DjangoResponse({
+                        "details": "Permission Denied"
+                    }, 401)
+
                 Logger(
                     message="GET Endpoint / Executed",
                     source=__name__,

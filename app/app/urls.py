@@ -16,7 +16,8 @@ get_update_destroy_patterns = URLConstants.GenericAPI.retrieve_update_delete_pat
 
 api_patterns = [
     path("api/", include((list_create_patterns, app_constants.APP_NAME))),
-    path("api/", include((get_update_destroy_patterns, app_constants.APP_NAME)))
+    path("api/", include((get_update_destroy_patterns, app_constants.APP_NAME))),
+    path("api/test/", TestAPI.as_view())
 ]
 
 template_patterns = [

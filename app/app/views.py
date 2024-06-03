@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.http import HttpRequest
 import app.constants.template_constants as Templates
 from django.contrib.auth import logout, authenticate, login
-
+from app.helpers import authentication
 
 class TemplateView:
     """Built in Template Renderer View Level"""
@@ -65,11 +65,15 @@ class TemplateView:
                 username = request.POST.get("username")
                 password = request.POST.get("password")
                 user = authenticate(request, username=username, password=password)
+
                 if user is not None:
+                    token = authentication.Token()
                     login(request, user)  # Library level not instance.
-                    return redirect("index")  # Change the home to your index page.
+                    print(token.generate_token(request))
+                    return redirect("home")  # Change the home to your index page.
 
         except Exception as e:
+            print(e)
             pass
 
         return redirect("login")
