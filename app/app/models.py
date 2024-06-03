@@ -38,12 +38,3 @@ class AppLogs(models.Model):
 class StackTrace(models.Model):
     app_log = models.ForeignKey(AppLogs, on_delete=models.CASCADE)
     description = models.TextField()
-
-class Categories(models.Model):
-    category_name = models.TextField()
-
-class Reports(models.Model):
-    accuracy = models.TextField()
-    precision = models.TextField()
-    recall = models.TextField()
-    f1_score = models.TextField()
