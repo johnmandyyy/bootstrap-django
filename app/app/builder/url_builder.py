@@ -99,12 +99,3 @@ class UrlPatternBuilder:
                 )
         else:
             self.__validate()
-
-        Logger(
-            message="URL Builder Created for Endpoints",
-            source=__name__,
-            request=None,
-            level=app_constants.LOG_LEVEL.INFO,
-            log_type=app_constants.LOG_TYPE.FUNCTION,
-            response_data = {}
-        )
