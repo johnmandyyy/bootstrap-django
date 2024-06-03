@@ -4,11 +4,11 @@ from app.jobs import jobs
 class Scheduler:
 
 	def __init__(self):
+		"""A class for background scheduler."""
 		pass
 
-
 	def start(self):
-
+		"""Used to start the tasks."""
 		scheduler = BackgroundScheduler()
 		tasks = jobs.Tasks()
 

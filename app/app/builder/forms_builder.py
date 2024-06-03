@@ -3,7 +3,6 @@ from django.forms import ModelForm
 from django.apps import apps
 from app.helpers.helpers import ModelHelpers
 
-
 class FormBuilder:
 
     """

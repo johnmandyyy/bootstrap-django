@@ -5,8 +5,7 @@ from app.api import *
 from django.db import models
 from app.logs.logging import Logger
 from app.constants import app_constants
-import json
-
+from datetime import datetime
 
 class APIBuilder:
 
@@ -29,7 +28,7 @@ class APIBuilder:
             )
             
             def get(self, request, *args, **kwargs):
-                
+                start_time = datetime.now()
                 response = super().get(request, *args, **kwargs)
                 Logger(
                     message="GET Endpoint / Executed",
@@ -37,11 +36,10 @@ class APIBuilder:
                     request=request,
                     level=app_constants.LOG_LEVEL.INFO,
                     log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
-                    response_status= response.status_code,
-                    response_data = response.data
+                    response_status = response.status_code,
+                    response_data = {},
+                    exec_time = str(datetime.now() - start_time)
                 )
-
-                print(response)
 
                 return response
 

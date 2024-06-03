@@ -1,10 +1,4 @@
-"""
-Definition of models.
-"""
-
 from django.db import models
-
-# Create your models here.
 
 
 class AppLogs(models.Model):
@@ -25,13 +19,16 @@ class AppLogs(models.Model):
     stack_trace = models.TextField(default=None, null=True, blank=True)
     execution_time = models.FloatField(default=0.00, null=True, blank=True)
 
+    def __str__(self):
+        return f"{self.time_stamp}"
+
+
 class Categories(models.Model):
     category_name = models.TextField()
+
 
 class Reports(models.Model):
     accuracy = models.TextField()
     precision = models.TextField()
     recall = models.TextField()
     f1_score = models.TextField()
-
-

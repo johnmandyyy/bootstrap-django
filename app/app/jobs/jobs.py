@@ -1,6 +1,7 @@
 class Tasks:
 
     def __init__(self):
+        """A class for tasks."""
         pass
 
     def sample_job(self):

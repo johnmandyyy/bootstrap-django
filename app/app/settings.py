@@ -1,15 +1,3 @@
-"""
-Django settings for app project.
-
-Based on 'django-admin startproject' using Django 2.1.2.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/2.1/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/2.1/ref/settings/
-"""
-
 import os
 import posixpath
 
@@ -18,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cb480bd8-7abf-4e5c-ae8e-1bf07b298900'
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', '*']
 
 INSTALLED_APPS = [
     'app',
@@ -67,12 +55,26 @@ TEMPLATES = [
 WSGI_APPLICATION = 'app.wsgi.application'
 ASGI_APPLICATION = 'app.asgi.application'
 
-DATABASES = {
+
+MYSQL_DB = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'boil',  # Replace with your MySQL database name
+        'USER': 'root',  # Replace with your MySQL username
+        'PASSWORD': 'aINGReantINGoterIGhToMoNeLArYsen',  # Replace with your MySQL password
+        'HOST': 'ec2-3-25-176-92.ap-southeast-2.compute.amazonaws.com',  # Or replace with your MySQL host if different
+        'PORT': '3306',  # Or replace with your MySQL port if different
+    }
+}
+
+SQL_LITE_DB = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+DATABASES = MYSQL_DB
 
 
 AUTH_PASSWORD_VALIDATORS = [
