@@ -55,28 +55,7 @@ class TemplateView:
 
         if request.user.is_authenticated == False:
             return Templates.LOGIN.render_page(request)
-
         return redirect("home")  # Change the home to your index page.
-
-    def authenticate_user(self, request):
-        try:
-            if request.method == "POST":
-
-                username = request.POST.get("username")
-                password = request.POST.get("password")
-                user = authenticate(request, username=username, password=password)
-
-                if user is not None:
-                    token = authentication.Token()
-                    login(request, user)  # Library level not instance.
-                    print(token.generate_token(request))
-                    return redirect("home")  # Change the home to your index page.
-
-        except Exception as e:
-            print(e)
-            pass
-
-        return redirect("login")
 
     def user_logout(self, request):
         logout(request)

@@ -16,7 +16,8 @@ EXCEPT_MODELS = [
 ]
 
 # Permission Related
-TOKEN_HAS_EXPIRY = True
+TOKEN_HAS_EXPIRY = False
+TOKEN_VALIDITY = 60 * 60
 
 # Logging Related
 LOG_LEVEL = Levels()

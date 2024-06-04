@@ -5,7 +5,7 @@
 
 <div id="{{ obj_name }}">
     <div class="row">
-        
+
     </div>
 </div>
 
@@ -14,13 +14,35 @@
 new Vue({
     delimiters: ["[[", "]]"],
     el: "#" + '{{ obj_name }}',
-    data: {},
+    data: {
+
+    },
     mounted() {
         if (document.querySelector("#" + '{{ obj_name }}')) {
             console.log("Mounted " + '{{ obj_name }}' + " page.")
         }
+        this.get_stack_trace()
     },
-    methods: {},
+    methods: {
+
+        async get_stack_trace() {
+
+            const authToken = localStorage.getItem('token')
+            const url = '/api/list-create/stacktrace/';
+
+            try {
+                // Send GET request with the cleaned token in the Authorization header
+                const result = await axios.get(url, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+            } catch (error) {
+
+            }
+        }
+    },
 });
 </script>
 {% endblock %}

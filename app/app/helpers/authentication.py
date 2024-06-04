@@ -5,6 +5,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from app.constants import app_constants
 
+
 class Token:
 
     def __init__(self):
@@ -12,24 +13,26 @@ class Token:
 
     def token_is_valid(self, token):
         try:
-            
+
             token = aes256.decrypt(token, settings.SECRET_KEY)
-            decrypted_dictionary = json.loads(token.decode('utf-8'))    
+            decrypted_dictionary = json.loads(token.decode("utf-8"))
 
             if app_constants.TOKEN_HAS_EXPIRY == True:
-                return int(datetime.now().timestamp()) < decrypted_dictionary.get('expiry')
-            
+                return int(datetime.now().timestamp()) < decrypted_dictionary.get(
+                    "expiry"
+                )
+
             return True
-        
+
         except Exception as e:
             return False
 
     def get_user(self, token):
         try:
             token = aes256.decrypt(token, settings.SECRET_KEY)
-            decrypted_dictionary = json.loads(token.decode('utf-8'))    
-            username = decrypted_dictionary['user']['username']
-            user_ = User.objects.get(username = username)
+            decrypted_dictionary = json.loads(token.decode("utf-8"))
+            username = decrypted_dictionary["user"]["username"]
+            user_ = User.objects.get(username=username)
             return user_
         except Exception as e:
             print(e)
@@ -40,14 +43,12 @@ class Token:
 
         current_timestamp = int(datetime.now().timestamp())
         payload = {
-            
             "user": {
                 "user_id": request.user.pk,
                 "username": str(request.user),
             },
-
             "created_at": current_timestamp,
-            "expiry": current_timestamp + 30
+            "expiry": current_timestamp + 30,
         }
 
         secret_key = settings.SECRET_KEY

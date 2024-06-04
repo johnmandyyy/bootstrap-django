@@ -21,6 +21,8 @@ class APIHelpers:
         """To check whether it is permissible or not"""
         if self.request.headers.get('Authorization') != None:
             return Token().token_is_valid(self.request.headers.get('Authorization', '').split(' ')[1])
+        else:
+            return False
         
     def get_user_from_token(self):
         """To get the token"""

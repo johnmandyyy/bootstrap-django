@@ -5,11 +5,10 @@ from app.api import *
 from django.db import models
 from app.logs.logging import Logger
 from app.constants import app_constants
-from datetime import datetime
-from app.helpers.authentication import Token
 from django.contrib.auth import logout, login
-from app.constants import response_constants
+from app.constants import response_constants as PREDEFINED_RESPONSE
 from app.helpers.helpers import APIHelpers
+
 
 class APIBuilder:
 
@@ -32,72 +31,53 @@ class APIBuilder:
             )
 
             def get(self, request, *args, **kwargs):
-                
 
                 if has_token == True:
-                    
-                    if APIHelpers(request).is_permissible() == True:
 
-                        if not request.user.is_authenticated:
-                            
-                            login(
-                                request,
-                                APIHelpers(request).get_user_from_token(),
-                            )
+                    if APIHelpers(
+                        request
+                    ).is_permissible():  # To check if token is still valid.
 
-                            response = super().get(request, *args, **kwargs)
+                        if (
+                            not request.user.is_authenticated
+                        ):  # Login if not yet logged in using token.
+                            login(request, APIHelpers(request).get_user_from_token())
 
-                            Logger(
-                                message="GET Endpoint / Executed",
-                                source=__name__,
-                                request=request,
-                                level=app_constants.LOG_LEVEL.INFO,
-                                log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
-                                response_status=response.status_code,
-                                response_data={}
-                            )
-
-                            return response
-                        
-                        else:
-                            
-                            response = super().get(request, *args, **kwargs)
-
-                            Logger(
-                                message="GET Endpoint / Executed",
-                                source=__name__,
-                                request=request,
-                                level=app_constants.LOG_LEVEL.INFO,
-                                log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
-                                response_status=response.status_code,
-                                response_data={}
-                            )
-
-                            return response
-                            
-            
                     else:
-                        
-                        if request.user.is_authenticated == True:
+
+                        if request.user.is_authenticated:
                             logout(request)
 
-                        response = response_constants.PERMMISSION_DENIED
+                        response = PREDEFINED_RESPONSE.PERMMISSION_DENIED
 
                         Logger(
-                            message="GET Endpoint / Executed",
+                            message="POST Endpoint / Executed",
                             source=__name__,
                             request=request,
                             level=app_constants.LOG_LEVEL.INFO,
                             log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
                             response_status=response.status_code,
-                            response_data={}
                         )
 
                         return response
 
+                response = super().get(request, *args, **kwargs)
+
+                Logger(
+                    message="POST Endpoint / Executed",
+                    source=__name__,
+                    request=request,
+                    level=app_constants.LOG_LEVEL.INFO,
+                    log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
+                    response_status=response.status_code,
+                )
+
+                return response
+
             def post(self, request, *args, **kwargs):
 
                 response = super().post(request, *args, **kwargs)
+
                 Logger(
                     message="POST Endpoint / Executed",
                     source=__name__,
