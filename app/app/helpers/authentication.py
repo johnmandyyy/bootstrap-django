@@ -19,7 +19,7 @@ class Token:
             if app_constants.TOKEN_HAS_EXPIRY == True:
                 return int(datetime.now().timestamp()) < decrypted_dictionary.get('expiry')
             
-            return False
+            return True
         
         except Exception as e:
             return False

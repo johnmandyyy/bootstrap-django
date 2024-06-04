@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.apps import apps
 from app.models import models
 from app.constants import app_constants
+from app.helpers.authentication import Token
+
 import hmac
 import time
 import base64
@@ -9,6 +11,25 @@ import hashlib
 import struct
 import base64
 import random
+
+class APIHelpers:
+
+    def __init__(self, request):
+        self.request = request
+
+    def is_permissible(self):
+        """To check whether it is permissible or not"""
+        if self.request.headers.get('Authorization') != None:
+            return Token().token_is_valid(self.request.headers.get('Authorization', '').split(' ')[1])
+        
+    def get_user_from_token(self):
+        """To get the token"""
+        if self.request.headers.get('Authorization') != None:
+            return Token().get_user(self.request.headers.get('Authorization', '').split(' ')[1])
+        
+    def is_login_required(self):
+        """A flag to check whether user is authenticated."""
+        return self.request.user.is_authenticated
 
 class OTPHelpers:
 
