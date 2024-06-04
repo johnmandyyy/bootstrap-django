@@ -15,6 +15,9 @@ EXCEPT_MODELS = [
     "Session",
 ]
 
+# Permission Related
+TOKEN_HAS_EXPIRY = True
+
 # Logging Related
 LOG_LEVEL = Levels()
 LOG_TYPE = LogTypes()

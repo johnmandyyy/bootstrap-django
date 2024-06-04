@@ -3,6 +3,7 @@ from django.conf import settings
 import json
 from datetime import datetime
 from django.contrib.auth.models import User
+from app.constants import app_constants
 
 class Token:
 
@@ -11,9 +12,15 @@ class Token:
 
     def token_is_valid(self, token):
         try:
+            
             token = aes256.decrypt(token, settings.SECRET_KEY)
             decrypted_dictionary = json.loads(token.decode('utf-8'))    
-            return int(datetime.now().timestamp()) < decrypted_dictionary.get('expiry')
+
+            if app_constants.TOKEN_HAS_EXPIRY == True:
+                return int(datetime.now().timestamp()) < decrypted_dictionary.get('expiry')
+            
+            return False
+        
         except Exception as e:
             return False
 

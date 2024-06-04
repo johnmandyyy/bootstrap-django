@@ -36,7 +36,7 @@ class UrlPatternBuilder:
         result = RouteExclusion.objects.all().filter(route=str(list_create_url))
         if len(result) > 0:
             for filtered in result:
-                return filtered.is_enabled
+                return filtered
 
     def __retrieve_update_delete_state(self, retrieve_update_delete_url):
 
@@ -53,47 +53,52 @@ class UrlPatternBuilder:
         )
         if len(result) > 0:
             for filtered in result:
-                return filtered.is_enabled
+                return filtered
+            
+    def __generic_specs(self, list_create_state, retrieve_update_state):
+        pass
 
     def build(self, name=app_constants.APP_NAME):
         """A method used to build the URL Pattern"""
-
-        start_time = datetime.now()
         django_models = ModelHelpers()
-
         for each_models in django_models.predefined_models:
 
             model_url_name = each_models.lower()
 
-            list_create_url = "list-create/" + str(model_url_name) + "/"
-            get_update_destroy_url = (
-                "get-update-destroy"
-                + "/"
-                + str(model_url_name)
-                + "/"
-                + "<int:pk>"
-                + "/"
-            )
+            list_create_url = f"list-create/{model_url_name}/"
+            get_update_destroy_url = f"get-update-destroy/{model_url_name}/<int:pk>/"
 
-            built_object_instance = APIBuilder(
-                each_models, name, ModelHelpers().get_model_instance(each_models)
-            )
-            built_object_instance.build()
+            LIST_CREATE_STATE = self.__list_create_endpoint_state(list_create_url)
+            RETRIEVE_UPDATE_DELETE_STATE = self.__retrieve_update_delete_state(get_update_destroy_url)
+            
+            if LIST_CREATE_STATE.is_enabled == True:
 
-            if self.__list_create_endpoint_state(list_create_url) == True:
+                LIST_CREATE_INSTANCE = APIBuilder(
+                    each_models, name, ModelHelpers().get_model_instance(each_models)
+                )
+
+                LIST_CREATE_INSTANCE.build(has_token = LIST_CREATE_STATE.required_token)
+                
                 self.list_create_patterns.append(
                     path(
                         list_create_url,
-                        built_object_instance.list_create.as_view(),
+                        LIST_CREATE_INSTANCE.list_create.as_view(),
                         name="list-create" + "-" + model_url_name,
                     )
                 )
 
-            if self.__retrieve_update_delete_state(get_update_destroy_url) == True:
+            if RETRIEVE_UPDATE_DELETE_STATE.is_enabled == True:
+
+                RETRIEVE_UPDATE_DELETE_INSTANCE = APIBuilder(
+                    each_models, name, ModelHelpers().get_model_instance(each_models)
+                )
+
+                RETRIEVE_UPDATE_DELETE_INSTANCE.build(has_token = RETRIEVE_UPDATE_DELETE_STATE.required_token)
+
                 self.retrieve_update_delete_patterns.append(
                     path(
                         get_update_destroy_url,
-                        built_object_instance.get_update_destroy.as_view(),
+                        RETRIEVE_UPDATE_DELETE_INSTANCE.get_update_destroy.as_view(),
                         name="get-update-delete-categories" + "-" + model_url_name,
                     )
                 )

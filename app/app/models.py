@@ -2,8 +2,9 @@ from django.db import models
 
 class RouteExclusion(models.Model):
     """Model for URL Routes"""
+    required_token = models.BooleanField(default = False)
     route = models.CharField(unique=True, max_length=255)
-    is_enabled = models.BooleanField(default = True)
+    is_enabled = models.BooleanField(default = False)
 
     def __str__(self):
         remarks = ""

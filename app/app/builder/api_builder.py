@@ -31,28 +31,31 @@ class APIBuilder:
             )
             
             def __is_permissible(self, request):
-                
+                """To check whether it is permissible or not"""
                 if request.headers.get('Authorization') != None:
                     return Token().token_is_valid(request.headers.get('Authorization', '').split(' ')[1])
                 
             def __get_user_from_token(self, request):
+                """To get the token"""
                 if request.headers.get('Authorization') != None:
                     return Token().get_user(request.headers.get('Authorization', '').split(' ')[1])
-
+                
             def get(self, request, *args, **kwargs):
 
-                response = None
+                response = super().get(request, *args, **kwargs)
                 start_time = datetime.now()
 
-                if self.__is_permissible(request) == True:
-                    response = super().get(request, *args, **kwargs)
-                    if not request.user.is_authenticated:
-                        login(request, self.__get_user_from_token(request))
-                else:
-                    logout(request)
-                    response = DjangoResponse({
-                        "details": "Permission Denied"
-                    }, 401)
+                if has_token == True:
+
+                    if self.__is_permissible(request) == True:
+                        
+                        if not request.user.is_authenticated:
+                            login(request, self.__get_user_from_token(request))
+                    else:
+                        logout(request)
+                        response = DjangoResponse({
+                            "details": "Permission Denied"
+                        }, 401)
 
                 Logger(
                     message="GET Endpoint / Executed",
