@@ -8,6 +8,8 @@ from app.views import TemplateView
 from .api import *
 import app.constants.url_constants as URLConstants
 from app.constants import app_constants
+from rest_framework.schemas import get_schema_view
+from django.views.generic import TemplateView as TV
 
 MainView = TemplateView()
 
@@ -17,6 +19,19 @@ get_update_destroy_patterns = URLConstants.GenericAPI.retrieve_update_delete_pat
 
 
 api_patterns = [
+    # DOCUMENTATION
+    path(
+        "api_schema/",
+        get_schema_view(title="API Schema", description="Guide for the REST API"),
+        name="api_schema",
+    ),
+    path(
+        "docs/",
+        TV.as_view(
+            template_name="app/docs.html", extra_context={"schema_url": "api_schema"}
+        ),
+        name="swagger-ui",
+    ),
     path("api/", include((list_get_patterns, app_constants.APP_NAME))),
     path("api/", include((list_create_patterns, app_constants.APP_NAME))),
     path("api/", include((get_update_destroy_patterns, app_constants.APP_NAME))),

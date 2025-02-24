@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "daphne",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_yasg",
 ]
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 MIDDLEWARE = [
