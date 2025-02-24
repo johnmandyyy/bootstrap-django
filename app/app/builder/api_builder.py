@@ -13,6 +13,7 @@ from django.contrib.auth import logout, login
 from app.constants import response_constants as PREDEFINED_RESPONSE
 from app.helpers.helpers import APIHelpers
 from rest_framework.pagination import PageNumberPagination
+from django.core.exceptions import FieldError
 
 
 class CustomPagination(PageNumberPagination):
@@ -36,16 +37,36 @@ class APIBuilder:
         self.list_get = None
         self.get_update_destroy = None
 
+    def filter_model(self):
+        return self.model
+
     def build(self, has_token=False):
 
         class ListGet(ListAPIView):
 
-            queryset = self.model.objects.all()
+            queryset = self.filter_model().objects.all()
             serializer_class = SerializerHelpers().create_serializer(
                 self.model_name, self.app_name
             )
 
             pagination_class = None
+
+            def get(self, request):
+                """
+                Example usage in ENDPOINT:
+                ?page=1&id=63
+                is equivalent to models.objects.all().filter(id = 63)
+                """
+                querydict = request.GET
+
+                filters = {
+                    key: value for key, value in querydict.items() if key != "page"
+                }
+                try:
+                    self.queryset = self.queryset.model.objects.all().filter(**filters)
+                    return super().get(request)
+                except FieldError:
+                    return PREDEFINED_RESPONSE.INVALID_REQUEST
 
         class ListCreate(ListCreateAPIView):
 
