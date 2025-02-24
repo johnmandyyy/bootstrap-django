@@ -16,14 +16,6 @@ from rest_framework.pagination import PageNumberPagination
 from django.core.exceptions import FieldError
 
 
-class CustomPagination(PageNumberPagination):
-    page_size = 10  # Number of items per page
-    page_size_query_param = (
-        "page_size"  # Allow clients to specify page size via query parameter
-    )
-    max_page_size = 100  # Maximum allowed page size
-
-
 class APIBuilder:
 
     def __init__(self, model_name: str, app_name: str, model_instance: models) -> None:
@@ -38,6 +30,7 @@ class APIBuilder:
         self.get_update_destroy = None
 
     def filter_model(self):
+        """A method used for subclass to return instance model for subclass as property of APIBuilder"""
         return self.model
 
     def build(self, has_token=False):
@@ -57,11 +50,13 @@ class APIBuilder:
                 ?page=1&id=63
                 is equivalent to models.objects.all().filter(id = 63)
                 """
+
                 querydict = request.GET
 
                 filters = {
                     key: value for key, value in querydict.items() if key != "page"
                 }
+
                 try:
                     self.queryset = self.queryset.model.objects.all().filter(**filters)
                     return super().get(request)
