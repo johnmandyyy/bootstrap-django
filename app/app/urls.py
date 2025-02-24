@@ -12,12 +12,15 @@ from app.constants import app_constants
 MainView = TemplateView()
 
 list_create_patterns = URLConstants.GenericAPI.list_create_patterns
+list_get_patterns = URLConstants.GenericAPI.list_get_patterns
 get_update_destroy_patterns = URLConstants.GenericAPI.retrieve_update_delete_patterns
 
+
 api_patterns = [
+    path("api/", include((list_get_patterns, app_constants.APP_NAME))),
     path("api/", include((list_create_patterns, app_constants.APP_NAME))),
     path("api/", include((get_update_destroy_patterns, app_constants.APP_NAME))),
-    path("api/login/", Login.as_view(), name = 'authenticate_user')
+    path("api/login/", Login.as_view(), name="authenticate_user"),
 ]
 
 template_patterns = [
@@ -27,7 +30,7 @@ template_patterns = [
     path("credibility/", MainView.credibility, name="credibility"),
     path("admin/", admin.site.urls),
     path("logout/", MainView.user_logout, name="logout"),
-    path("login/", MainView.login, name="login")
+    path("login/", MainView.login, name="login"),
 ]
 
 urlpatterns = template_patterns + api_patterns

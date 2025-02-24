@@ -9,6 +9,8 @@ from app.api import *
 import app.constants.url_constants as URLConstants
 from app.constants import app_constants
 
+print("URLS EXECUTED")
+
 MainView = TemplateView()
 
 list_create_patterns = URLConstants.GenericAPI.list_create_patterns
@@ -17,7 +19,7 @@ get_update_destroy_patterns = URLConstants.GenericAPI.retrieve_update_delete_pat
 api_patterns = [
     path("api/", include((list_create_patterns, app_constants.APP_NAME))),
     path("api/", include((get_update_destroy_patterns, app_constants.APP_NAME))),
-    path("api/login/", Login.as_view())
+    path("api/login/", Login.as_view()),
 ]
 
 template_patterns = [
@@ -27,7 +29,7 @@ template_patterns = [
     path("maintenance/", MainView.maintenance, name="maintenance"),
     path("admin/", admin.site.urls),
     path("logout/", MainView.user_logout, name="logout"),
-    path("login/", MainView.login, name="login")
+    path("login/", MainView.login, name="login"),
 ]
 
 urlpatterns = template_patterns + api_patterns

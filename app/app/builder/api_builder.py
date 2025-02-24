@@ -1,4 +1,8 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+    ListAPIView,
+)
 from app.models import *
 from app.helpers.helpers import SerializerHelpers
 from app.api import *
@@ -8,6 +12,15 @@ from app.constants import app_constants
 from django.contrib.auth import logout, login
 from app.constants import response_constants as PREDEFINED_RESPONSE
 from app.helpers.helpers import APIHelpers
+from rest_framework.pagination import PageNumberPagination
+
+
+class CustomPagination(PageNumberPagination):
+    page_size = 10  # Number of items per page
+    page_size_query_param = (
+        "page_size"  # Allow clients to specify page size via query parameter
+    )
+    max_page_size = 100  # Maximum allowed page size
 
 
 class APIBuilder:
@@ -18,10 +31,21 @@ class APIBuilder:
         self.model_name = model_name
         self.model = model_instance
         self.app_name = app_name
+
         self.list_create = None
+        self.list_get = None
         self.get_update_destroy = None
 
     def build(self, has_token=False):
+
+        class ListGet(ListAPIView):
+
+            queryset = self.model.objects.all()
+            serializer_class = SerializerHelpers().create_serializer(
+                self.model_name, self.app_name
+            )
+
+            pagination_class = None
 
         class ListCreate(ListCreateAPIView):
 
@@ -99,5 +123,6 @@ class APIBuilder:
 
         self.list_create = ListCreate()
         self.get_update_destroy = GetUpdateDestroy()
+        self.list_get = ListGet()
 
         return self

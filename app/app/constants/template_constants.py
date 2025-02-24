@@ -2,24 +2,17 @@ from app.builder.template_builder import Builder
 from app.constants import app_constants
 from app.builder.forms_builder import FormBuilder
 
-HOME = (
-    Builder()
-    .addPage("app/home.html")
-    .addTitle("home")
-)
+HOME = Builder().addPage("app/home.html").addTitle("home")
 
 HOME.build()
 
 DATASETS = Builder().addPage("app/datasets.html").addTitle("datasets")
-
 DATASETS.build()
 
 LIBRARY = Builder().addPage("app/library.html").addTitle("library")
-
 LIBRARY.build()
 
 CREDIBILITY = Builder().addPage("app/credibility.html").addTitle("credibility")
-
 CREDIBILITY.build()
 
 LOGIN = (
@@ -36,5 +29,3 @@ LOGIN = (
     )
 )
 LOGIN.build()
-
-

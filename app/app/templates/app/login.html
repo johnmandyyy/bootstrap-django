@@ -68,7 +68,6 @@
         },
         methods: {
             async login() {
-
                 const result = axios.post("/api/login/", {
                     "username": this.username,
                     "password": this.password
@@ -76,11 +75,10 @@
                     if (response.status === 200) {
                         localStorage.setItem('token', response.data.token)
                         window.location.href = "/home"
+                    } else {
+
                     }
-                }).catch(error => {
-                    // Handle errors
-                    console.error("Error:", error);
-                });
+                }).catch(error => {});
 
             }
         },
