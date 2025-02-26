@@ -53,6 +53,10 @@ class APIBuilder:
 
                 querydict = request.GET
 
+                # for key, value in querydict.items():
+                if "page" in querydict:
+                    self.pagination_class = PageNumberPagination
+
                 filters = {
                     key: value for key, value in querydict.items() if key != "page"
                 }

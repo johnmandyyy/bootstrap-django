@@ -11,7 +11,7 @@ class UrlPatternBuilder:
 
     def __init__(self):
         """A URL Pattern builder for Generics API"""
-        self.list_create_patterns = []
+        self.list_create_patterns = []  # GET AND POST
         self.retrieve_update_delete_patterns = []
         self.list_get_patterns = []
         self.__combined_list = []
