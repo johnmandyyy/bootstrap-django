@@ -5,6 +5,7 @@ APP_NAME = "app"
 SOFTWARE_NAME = "App Name"
 SOFTWARE_DESCRIPTION = "App Description"
 
+
 #Database Related
 EXCEPT_MODELS = [
     "LogEntry",
@@ -18,6 +19,9 @@ EXCEPT_MODELS = [
 # Permission Related
 TOKEN_HAS_EXPIRY = False
 TOKEN_VALIDITY = 60 * 60
+
+HAS_LOGGING = False
+IS_DATABASE_LOGGING = False
 
 # Logging Related
 LOG_LEVEL = Levels()
