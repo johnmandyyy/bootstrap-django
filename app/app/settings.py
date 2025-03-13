@@ -65,10 +65,10 @@ REST_FRAMEWORK = {
 MYSQL_DB = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "boil",  # Replace with your MySQL database name
-        "USER": "root",  # Replace with your MySQL username
-        "PASSWORD": "aINGReantINGoterIGhToMoNeLArYsen",  # Replace with your MySQL password
-        "HOST": "ec2-3-25-176-92.ap-southeast-2.compute.amazonaws.com",  # Or replace with your MySQL host if different
+        "NAME": "",  # Replace with your MySQL database name
+        "USER": "",  # Replace with your MySQL username
+        "PASSWORD": "",  # Replace with your MySQL password
+        "HOST": "",  # Or replace with your MySQL host if different
         "PORT": "3306",  # Or replace with your MySQL port if different
     }
 }

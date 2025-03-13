@@ -6,16 +6,27 @@ from django.urls import path, include
 from django.contrib import admin
 from app.views import TemplateView
 from .api import *
-import app.constants.url_constants as URLConstants
 from app.constants import app_constants
 from rest_framework.schemas import get_schema_view
 from django.views.generic import TemplateView as TV
 
-MainView = TemplateView()
 
-list_create_patterns = URLConstants.GenericAPI.list_create_patterns
-list_get_patterns = URLConstants.GenericAPI.list_get_patterns
-get_update_destroy_patterns = URLConstants.GenericAPI.retrieve_update_delete_patterns
+try:
+    
+    import app.constants.url_constants as URLConstants
+    list_create_patterns = URLConstants.GenericAPI.list_create_patterns
+    list_get_patterns = URLConstants.GenericAPI.list_get_patterns
+    get_update_destroy_patterns = URLConstants.GenericAPI.retrieve_update_delete_patterns
+
+except Exception as e:
+
+    print(e, type(e), "No model found in the database.")
+    list_create_patterns = []
+    list_get_patterns = []
+    get_update_destroy_patterns = []
+
+
+MainView = TemplateView()
 
 
 api_patterns = [
