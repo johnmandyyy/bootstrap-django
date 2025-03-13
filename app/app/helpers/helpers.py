@@ -114,7 +114,6 @@ class SerializerHelpers:
         Create an automatic serializer for your API that include(s) auto joining of table.
         """
         django_model = apps.get_model(app_label=str(app_name), model_name=model_name)
-        # print(django_model, "Autoserializer was built.")
 
         class AutoSerializer(serializers.ModelSerializer):
 

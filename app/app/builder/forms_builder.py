@@ -12,6 +12,7 @@ class FormBuilder:
 
     def __init__(self) -> None:
         """Initialize based on models."""
+        
         self.__available_forms = []
         self.create_form()
 
@@ -27,10 +28,12 @@ class FormBuilder:
 
     def get_all_forms(self) -> list:
         """Return all forms in string name inside list."""
+
         return self.__available_forms
 
     def get_available_forms(self):
         """Get the list of available forms."""
+
         form_names = []
         if len(self.__available_forms) > 0:
             for each_forms in self.__available_forms:
@@ -40,6 +43,7 @@ class FormBuilder:
 
     def create_form(self):
         """To create forms for each available models in the database."""
+
         available_models = ModelHelpers().predefined_models
         if len(available_models) > 0:
             for each_models in available_models:
@@ -51,7 +55,6 @@ class FormBuilder:
                 )
 
     def build(self, model_name: str, use_vue = True) -> ModelForm:
-
         """A builder method for each model name."""
 
         class GenericForm(forms.ModelForm):

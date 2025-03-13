@@ -26,7 +26,7 @@ TOKEN_VALIDITY = 60 * 60
 LOG_LEVEL = Levels()
 LOG_TYPE = LogTypes()
 
-HAS_LOGGING = False
+HAS_LOGGING = True
 IS_DATABASE_LOGGING = False
 
 

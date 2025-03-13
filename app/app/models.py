@@ -1,6 +1,6 @@
 from django.db import models
 
-# Default Python Models
+# Default Python Models for Auto API
 
 class RouteExclusion(models.Model):
     """Model for URL Routes"""

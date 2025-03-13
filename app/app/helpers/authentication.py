@@ -12,6 +12,8 @@ class Token:
         pass
 
     def token_is_valid(self, token):
+
+        """ To check if token is valid using custom token built from secret key. """
         try:
 
             token = aes256.decrypt(token, settings.SECRET_KEY)
@@ -28,14 +30,17 @@ class Token:
             return False
 
     def get_user(self, token):
+        """ To check the user instance from token itself. """
+
         try:
+
             token = aes256.decrypt(token, settings.SECRET_KEY)
             decrypted_dictionary = json.loads(token.decode("utf-8"))
             username = decrypted_dictionary["user"]["username"]
             user_ = User.objects.get(username=username)
             return user_
+        
         except Exception as e:
-            print(e)
             return None
 
     def generate_token(self, request):

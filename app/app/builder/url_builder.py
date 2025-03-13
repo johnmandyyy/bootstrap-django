@@ -3,17 +3,15 @@ from django.urls import path
 from app.builder.api_builder import APIBuilder
 from app.constants import app_constants
 from app.models import RouteExclusion
-from app.logs.logging import Logger
-from datetime import datetime
-
 
 class UrlPatternBuilder:
 
     def __init__(self):
         """A URL Pattern builder for Generics API"""
+
         self.list_create_patterns = []  # GET AND POST
-        self.retrieve_update_delete_patterns = []
-        self.list_get_patterns = []
+        self.retrieve_update_delete_patterns = [] # GET POST PUT PATCH DELETE
+        self.list_get_patterns = [] # GET
         self.__combined_list = []
 
     def __validate(self):
@@ -55,7 +53,7 @@ class UrlPatternBuilder:
                 return filtered
 
     def __retrieve_update_delete_state(self, retrieve_update_delete_url):
-
+        """ Used for get post put patch delete. """
         self.__combined_list.append(retrieve_update_delete_url)
 
         result = RouteExclusion.objects.all().filter(

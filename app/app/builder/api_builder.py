@@ -3,6 +3,7 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
     ListAPIView,
 )
+
 from app.models import *
 from app.helpers.helpers import SerializerHelpers
 from app.api import *
@@ -35,8 +36,10 @@ class APIBuilder:
 
     def build(self, has_token=False):
 
-        class ListGet(ListAPIView):
+        """ A method to create subclasses for auto API object instance. """
 
+        class ListGet(ListAPIView):
+            """ A sub-class for get if page is defined pagination will occur. """
             queryset = self.filter_model().objects.all()
             serializer_class = SerializerHelpers().create_serializer(
                 self.model_name, self.app_name
@@ -68,7 +71,7 @@ class APIBuilder:
                     return PREDEFINED_RESPONSE.INVALID_REQUEST
 
         class ListCreate(ListCreateAPIView):
-
+            """ A sub-class without pagination, can be used to create objects and execute insert query. """
             queryset = self.model.objects.all()
             serializer_class = SerializerHelpers().create_serializer(
                 self.model_name, self.app_name
@@ -134,12 +137,27 @@ class APIBuilder:
                 return response
 
         class GetUpdateDestroy(RetrieveUpdateDestroyAPIView):
-
+            """ A sub-class for get post put patch delete using primary key as a default filters. """
             queryset = self.model.objects.all()
             serializer_class = SerializerHelpers().create_serializer(
                 self.model_name, self.app_name
             )
             lookup_field = "pk"
+
+            def get(self, request, *args, **kwargs):
+                
+                response = super().get(request, *args, **kwargs)
+
+                Logger(
+                    message="POST Endpoint / Executed",
+                    source=__name__,
+                    request=request,
+                    level=app_constants.LOG_LEVEL.INFO,
+                    log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
+                    response_status=response.status_code,
+                )
+
+                return response
 
         self.list_create = ListCreate()
         self.get_update_destroy = GetUpdateDestroy()

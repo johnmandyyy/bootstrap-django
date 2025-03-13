@@ -28,6 +28,7 @@ class Builder:
 
     def __init__(self):
         """A builder template for views in HTML."""
+
         self.instance = TemplateBuilder()
         self.Page = None
         self.Context = None
@@ -35,15 +36,18 @@ class Builder:
 
     def addPage(self, page) -> TemplateBuilder:
         """To add page."""
+
         self.instance.setPage(page)
         return self
 
     def addTitle(self, title) -> TemplateBuilder:
+        """To add title to a page."""
         self.instance.setTitle(title)
         return self
 
     def addContext(self, context={}) -> TemplateBuilder:
         """Use to override server side variables in views."""
+
         if len(context) < 1:
             context = self.Context
         else:
@@ -53,7 +57,8 @@ class Builder:
         return self
 
     def initialize(self):
-        """Used t o initialize context."""
+        """Used to initialize context."""
+
         self.Context = {
             "title": self.instance.getProps()["title"],
             "date": str(datetime.now()),
@@ -62,6 +67,7 @@ class Builder:
 
     def build(self) -> TemplateBuilder:
         """A method used to build the object."""
+
         self.Page = self.instance.getProps()["page"]
         return self.instance
 
