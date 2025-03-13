@@ -42,6 +42,7 @@ class Token:
         """A custom class for generating token."""
 
         current_timestamp = int(datetime.now().timestamp())
+        
         payload = {
             "user": {
                 "user_id": request.user.pk,

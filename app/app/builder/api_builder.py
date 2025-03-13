@@ -10,11 +10,11 @@ from django.db import models
 from app.logs.logging import Logger
 from app.constants import app_constants
 from django.contrib.auth import logout, login
-from app.constants import response_constants as PREDEFINED_RESPONSE
 from app.helpers.helpers import APIHelpers
 from rest_framework.pagination import PageNumberPagination
 from django.core.exceptions import FieldError
 
+from app.constants import response_constants as PREDEFINED_RESPONSE
 
 class APIBuilder:
 

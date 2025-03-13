@@ -3,7 +3,6 @@ from app.constants import app_constants
 from app.builder.forms_builder import FormBuilder
 
 HOME = Builder().addPage("app/home.html").addTitle("home")
-
 HOME.build()
 
 DATASETS = Builder().addPage("app/datasets.html").addTitle("datasets")

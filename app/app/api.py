@@ -27,6 +27,7 @@ class Login(APIView):
                 }, 200)
             
         except Exception as e:
+            
             return Response({
                 "details": "Invalid Credentials"
             }, 401)
