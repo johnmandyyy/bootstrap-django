@@ -32,6 +32,7 @@ class Builder:
         self.instance = TemplateBuilder()
         self.Page = None
         self.Context = None
+        self.Object = None
         self.initialize()
 
     def addPage(self, page) -> TemplateBuilder:
@@ -60,6 +61,7 @@ class Builder:
         """Used to initialize context."""
 
         self.Context = {
+            "runtime_instances": None if False else self.Object,
             "title": self.instance.getProps()["title"],
             "date": str(datetime.now()),
             "obj_name": str(self.instance.getProps()["title"]).lower(),

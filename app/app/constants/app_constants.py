@@ -29,5 +29,8 @@ LOG_TYPE = LogTypes()
 HAS_LOGGING = True
 IS_DATABASE_LOGGING = False
 
+# Styling Related
+THEMES = None
+
 
 

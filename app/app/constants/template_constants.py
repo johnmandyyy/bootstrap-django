@@ -20,6 +20,7 @@ LOGIN = (
     .addTitle("login")
     .addContext(
         {
+            "runtime_instances": None,
             "title": "Login - Page",
             "obj_name": "login",
             "app_name": app_constants.SOFTWARE_NAME,

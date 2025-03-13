@@ -7,12 +7,21 @@
         <title>{{ title }} - My Django Application</title>
 
         {% load static %}
-        <link rel="icon" href="{% static 'app/favicon.ico' %}" type="image/x-icon">
+        <link rel="icon" href="{% static 'app/favicon.ico' %}"
+            type="image/x-icon">
 
-        <link rel="stylesheet" href="{% static 'app/bootstrap/css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'app/user-defined/css/customized.css' %}">
+        <!-- <link rel="stylesheet"
+            href="{% static 'app/bootstrap/css/bootstrap.min.css' %}"> -->
+
+        <link rel="stylesheet"
+            href="{% static 'app/themes/css/litera/bootstrap.min.css' %}">
+
+        <link rel="stylesheet"
+            href="{% static 'app/user-defined/css/customized.css' %}">
+
         <link rel="stylesheet" href="{% static 'app/fa/css/all.css' %}">
-        <link rel="stylesheet" href="{% static 'app/datatables/datatables.min.css' %}">
+        <link rel="stylesheet"
+            href="{% static 'app/datatables/datatables.min.css' %}">
 
         <script src="{% static 'app/scripts/global.js' %}"></script>
         <script src="{% static 'app/scripts/axios.min.js' %}"></script>
@@ -28,8 +37,8 @@
 
         {% if user.is_authenticated %}
 
-            {% include 'app/partials/navbar.html' %}
-            
+        {% include 'app/partials/navbar.html' %}
+
         {% endif %}
 
         <div class="container mt-4">
@@ -44,7 +53,8 @@
 
         {% endblock %}
 
-        <script src="{% static 'app/bootstrap/js/bootstrap.bundle.js' %}"></script>
+        <script
+            src="{% static 'app/bootstrap/js/bootstrap.bundle.js' %}"></script>
 
     </body>
 
