@@ -20,13 +20,10 @@ EXCEPT_MODELS = [
 TOKEN_HAS_EXPIRY = False
 TOKEN_VALIDITY = 60 * 60
 
-
-
 # Logging Related
 LOG_LEVEL = Levels()
 LOG_TYPE = LogTypes()
-
-HAS_LOGGING = True
+HAS_LOGGING = False
 IS_DATABASE_LOGGING = False
 
 # Styling Related

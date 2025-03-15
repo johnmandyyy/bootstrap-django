@@ -76,6 +76,7 @@ class Builder:
     def render_page(self, request):
         """A method to render when there is an error in the page."""
         
+        print("RENDERING")
         try:
             page = render(request, self.Page, self.Context)
 
@@ -87,12 +88,14 @@ class Builder:
                 log_type=app_constants.LOG_TYPE.HTTP_REQUEST,
                 response_status= page.status_code,
             )
+
+            print("PAGE LOADED")
             
             return page
 
         except Exception as e:
             # Render an Error Page
-
+            print(e)
             page = render(
                 request,
                 "app/constants/error.html",
