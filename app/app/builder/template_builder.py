@@ -2,6 +2,7 @@ from django.shortcuts import render
 from datetime import datetime
 from app.logs.logging import Logger
 from app.constants import app_constants
+import inspect
 
 class TemplateBuilder:
     """A template builder class."""
@@ -32,9 +33,12 @@ class Builder:
         """A builder template for views in HTML."""
 
         self.instance = TemplateBuilder()
+
         self.Page = None
         self.Context = None
         self.Object = None
+
+        
         self.initialize()
 
     # --------------------------------------------------------------------------------------------------------------- #
@@ -53,7 +57,7 @@ class Builder:
     # --------------------------------------------------------------------------------------------------------------- #
     def addContext(self, context={}) -> TemplateBuilder:
         """Use to override server side variables in views."""
-
+    
         if len(context) < 1:
             context = self.Context
         else:
@@ -65,13 +69,14 @@ class Builder:
     # --------------------------------------------------------------------------------------------------------------- #
     def initialize(self):
         """Used to initialize context."""
-
+        
         self.Context = {
             "runtime_instances": None if False else self.Object,
-            "title": self.instance.getProps()["title"],
+            "title": 'Generic Page',
             "date": str(datetime.now()),
             "obj_name": str(self.instance.getProps()["title"]).lower(),
         }
+
 
     # --------------------------------------------------------------------------------------------------------------- #
     def build(self) -> TemplateBuilder:
@@ -85,7 +90,9 @@ class Builder:
         """A method to render when there is an error in the page."""
 
         try:
+            
             page = render(request, self.Page, self.Context)
+            
             Logger(
                 message="Loaded Page",
                 source=__name__,
@@ -95,11 +102,10 @@ class Builder:
                 response_status= page.status_code,
             )
 
-            print("PAGE LOADED")
-            
             return page
 
         except Exception as e:
+
             page = render(
                 request,
                 "app/constants/error.html",

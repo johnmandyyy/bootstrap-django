@@ -3,10 +3,9 @@ from rest_framework import status as __STATUS
 
 class __Messages:
 
-    PERMISSION_DENIED_MESSAGE = "Permission Denied"
+    PERMISSION_DENIED_MESSAGE = "Permission Denied."
     INVALID_REQUEST = "Request was invalid."
-    VALID = "ACCEPTED"
-
+    VALID = "Accepted."
 
 PERMMISSION_DENIED = __Response(
     {"details": __Messages.PERMISSION_DENIED_MESSAGE}, __STATUS.HTTP_401_UNAUTHORIZED
