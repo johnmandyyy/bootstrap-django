@@ -3,7 +3,6 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
     ListAPIView,
 )
-
 from app.models import *
 from app.helpers.helpers import SerializerHelpers
 from app.api import *
@@ -14,11 +13,10 @@ from django.contrib.auth import logout, login
 from app.helpers.helpers import APIHelpers
 from rest_framework.pagination import PageNumberPagination
 from django.core.exceptions import FieldError
-
 from app.constants import response_constants as PREDEFINED_RESPONSE
 
 class APIBuilder:
-
+    
     def __init__(self, model_name: str, app_name: str, model_instance: models) -> None:
         """An API Generics Builder"""
 
@@ -30,12 +28,13 @@ class APIBuilder:
         self.list_get = None
         self.get_update_destroy = None
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def filter_model(self):
         """A method used for subclass to return instance model for subclass as property of APIBuilder"""
         return self.model
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def build(self, has_token=False):
-
         """ A method to create subclasses for auto API object instance. """
 
         class ListGet(ListAPIView):

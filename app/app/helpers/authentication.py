@@ -5,12 +5,12 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from app.constants import app_constants
 
-
 class Token:
 
     def __init__(self):
         pass
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def token_is_valid(self, token):
 
         """ To check if token is valid using custom token built from secret key. """
@@ -29,20 +29,19 @@ class Token:
         except Exception as e:
             return False
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def get_user(self, token):
         """ To check the user instance from token itself. """
-
         try:
-
             token = aes256.decrypt(token, settings.SECRET_KEY)
             decrypted_dictionary = json.loads(token.decode("utf-8"))
             username = decrypted_dictionary["user"]["username"]
             user_ = User.objects.get(username=username)
             return user_
-        
         except Exception as e:
             return None
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def generate_token(self, request):
         """A custom class for generating token."""
 

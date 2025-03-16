@@ -30,7 +30,6 @@ MainView = TemplateView()
 
 
 api_patterns = [
-    # DOCUMENTATION
     path(
         "api_schema/",
         get_schema_view(title="API Schema", description="Guide for the REST API"),

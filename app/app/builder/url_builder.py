@@ -14,6 +14,7 @@ class UrlPatternBuilder:
         self.list_get_patterns = [] # GET
         self.__combined_list = []
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def __validate(self):
         """To validate all the models if it is
         still existing so that the endpoints route will be updated"""
@@ -24,6 +25,7 @@ class UrlPatternBuilder:
                 if url.route not in self.__combined_list:
                     RouteExclusion.objects.all().filter(route=url.route).delete()
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def __list_get_endpoint_state(self, list_get_url):
         """A method for validating a list get endpoint to be appended and returns the state."""
 
@@ -38,6 +40,7 @@ class UrlPatternBuilder:
             for filtered in result:
                 return filtered
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def __list_create_endpoint_state(self, list_create_url):
         """A method for validating a list create endpoint to be appended and returns the state."""
 
@@ -52,7 +55,8 @@ class UrlPatternBuilder:
             for filtered in result:
                 return filtered
 
-    def __retrieve_update_delete_state(self, retrieve_update_delete_url):
+    # --------------------------------------------------------------------------------------------------------------- #
+    def __retrieve_update_delete_state(self, retrieve_update_delete_url) -> None:
         """ Used for get post put patch delete. """
         self.__combined_list.append(retrieve_update_delete_url)
 
@@ -68,10 +72,8 @@ class UrlPatternBuilder:
         if len(result) > 0:
             for filtered in result:
                 return filtered
-
-    def __generic_specs(self, list_create_state, retrieve_update_state):
-        pass
-
+            
+    # --------------------------------------------------------------------------------------------------------------- #
     def build(self, name=app_constants.APP_NAME):
         """A method used to build the URL Pattern"""
         django_models = ModelHelpers()

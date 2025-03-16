@@ -11,18 +11,20 @@ class TemplateBuilder:
         self.__Page = None
         self.__Title = None
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def setPage(self, page: str) -> None:
         """A method used to set page location"""
         self.__Page = page
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def setTitle(self, title: str) -> None:
         """A method used to set title"""
         self.__Title = title
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def getProps(self):
         """Getters"""
         return {"page": self.__Page, "title": self.__Title}
-
 
 class Builder:
 
@@ -35,17 +37,20 @@ class Builder:
         self.Object = None
         self.initialize()
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def addPage(self, page) -> TemplateBuilder:
         """To add page."""
 
         self.instance.setPage(page)
         return self
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def addTitle(self, title) -> TemplateBuilder:
         """To add title to a page."""
         self.instance.setTitle(title)
         return self
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def addContext(self, context={}) -> TemplateBuilder:
         """Use to override server side variables in views."""
 
@@ -57,6 +62,7 @@ class Builder:
         self.Context = context
         return self
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def initialize(self):
         """Used to initialize context."""
 
@@ -67,19 +73,19 @@ class Builder:
             "obj_name": str(self.instance.getProps()["title"]).lower(),
         }
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def build(self) -> TemplateBuilder:
         """A method used to build the object."""
 
         self.Page = self.instance.getProps()["page"]
         return self.instance
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def render_page(self, request):
         """A method to render when there is an error in the page."""
-        
-        print("RENDERING")
+
         try:
             page = render(request, self.Page, self.Context)
-
             Logger(
                 message="Loaded Page",
                 source=__name__,
@@ -94,8 +100,6 @@ class Builder:
             return page
 
         except Exception as e:
-            # Render an Error Page
-            print(e)
             page = render(
                 request,
                 "app/constants/error.html",

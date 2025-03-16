@@ -16,6 +16,7 @@ class FormBuilder:
         self.__available_forms = []
         self.create_form()
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def get_targeted_form(self, form_name: str) -> ModelForm:
         """To get the targeted form based on name."""
 
@@ -26,11 +27,13 @@ class FormBuilder:
 
             return None
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def get_all_forms(self) -> list:
         """Return all forms in string name inside list."""
 
         return self.__available_forms
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def get_available_forms(self):
         """Get the list of available forms."""
 
@@ -41,6 +44,7 @@ class FormBuilder:
 
         return form_names
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def create_form(self):
         """To create forms for each available models in the database."""
 
@@ -54,6 +58,7 @@ class FormBuilder:
                     }
                 )
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def build(self, model_name: str, use_vue = True) -> ModelForm:
         """A builder method for each model name."""
 
