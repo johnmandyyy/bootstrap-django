@@ -18,7 +18,27 @@ new Vue({
     delimiters: ["[[", "]]"],
     el: "#" + '{{ obj_name }}',
     
-    data: {},
+    data: {
+
+        loading_state: {
+            'OBJECT': true
+        },
+
+        lists: {
+            'OBJECT': []
+        },
+
+        url_models: {
+            'OBJECT': '/object/'
+        },
+
+        endpoints: {
+            'LIST_GET': '/api/list-get',
+            'LIST_CREATE': '/api/list-create',
+            'GET_UPDATE_DESTROY': '/api/get-update-destroy'
+        }
+        
+    },
 
     mounted() {
         if (document.querySelector("#" + '{{ obj_name }}')) {
