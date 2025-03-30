@@ -10,6 +10,7 @@ class Scheduler:
 	# --------------------------------------------------------------------------------------------------------------- #
 	def start(self):
 		"""Used to start the tasks."""
+		
 		scheduler = BackgroundScheduler()
 		tasks = jobs.Tasks()
 		scheduler.add_job(tasks.sample_job, 'interval', seconds=60)

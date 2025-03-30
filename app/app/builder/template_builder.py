@@ -16,16 +16,19 @@ class TemplateBuilder:
     # --------------------------------------------------------------------------------------------------------------- #
     def setPage(self, page: str) -> None:
         """A method used to set page location"""
+
         self.__Page = page
 
     # --------------------------------------------------------------------------------------------------------------- #
     def setTitle(self, title: str) -> None:
         """A method used to set title"""
+
         self.__Title = title
 
     # --------------------------------------------------------------------------------------------------------------- #
     def getProps(self):
         """Getters"""
+
         return {"page": self.__Page, "title": self.__Title}
 
 class Builder:
@@ -53,6 +56,7 @@ class Builder:
     # --------------------------------------------------------------------------------------------------------------- #
     def addTitle(self, title) -> TemplateBuilder:
         """To add title to a page."""
+        
         self.instance.setTitle(title)
         return self
 

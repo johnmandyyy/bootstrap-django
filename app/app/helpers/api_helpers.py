@@ -2,6 +2,7 @@ from app.helpers.authentication import Token
 
 class APIHelpers:
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def __init__(self, request):
         self.request = request
     
