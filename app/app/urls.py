@@ -28,11 +28,14 @@ except Exception as e:
 MainView = TemplateView()
 
 api_patterns = [
+
+    # Docs Related
     path(
         "api_schema/",
         get_schema_view(title="API Schema", description="Guide for the REST API"),
         name="api_schema",
     ),
+
     path(
         "docs/",
         TV.as_view(
@@ -40,12 +43,18 @@ api_patterns = [
         ),
         name="swagger-ui",
     ),
+
+    # Auto Generated API
     path("api/", include((list_get_patterns, app_constants.APP_NAME))),
     path("api/", include((list_create_patterns, app_constants.APP_NAME))),
     path("api/", include((get_update_destroy_patterns, app_constants.APP_NAME))),
+
+    # Defined APIs
     path("api/login/", Login.as_view(), name="authenticate_user"),
+    path("api/account-section/", AccountSection.as_view(), name="account-section"),
 ]
 
+# Exists in views.py all the tempaltes.
 template_patterns = [
     path("home/", MainView.home, name="home"),
     path("datasets/", MainView.datasets, name="datasets"),
