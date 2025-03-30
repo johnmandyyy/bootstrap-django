@@ -7,6 +7,7 @@ import random
 
 class OTPHelpers:
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def __init__(self):
         """An OTP Helper for OTPs, it can be used for different use cases."""
         pass

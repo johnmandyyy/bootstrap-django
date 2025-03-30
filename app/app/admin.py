@@ -7,9 +7,9 @@ MODELS = ModelHelpers()
 
 if len(MODELS.predefined_models) > 0:
     for each_models in MODELS.predefined_models:
-        admin.site.register(
-            MODELS.get_model_instance(each_models)
-        )
-
+        if str(each_models).lower() != 'user':
+            admin.site.register(
+                MODELS.get_model_instance(each_models)
+            )
 admin.site.register(Session)
 

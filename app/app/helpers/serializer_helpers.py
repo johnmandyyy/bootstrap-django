@@ -31,11 +31,13 @@ class SerializerHelpers:
     
     # --------------------------------------------------------------------------------------------------------------- #
     def create_serializer_no_depth(self, model_name: models, app_name: str) -> serializers:
+        
         """
-        Create an automatic serializer for your API that include(s) auto joining of table.
+            Create an automatic serializer for your API that include(s) without the joining of tables.
+            This is used for patch and post request(s) with JOINED tables.
         """
 
-        if model_name == 'User':
+        if str(model_name).lower() == 'user':
             django_model = User
         else:
             print(app_name, type(app_name))

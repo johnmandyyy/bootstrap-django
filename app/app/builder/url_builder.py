@@ -58,6 +58,7 @@ class UrlPatternBuilder:
     # --------------------------------------------------------------------------------------------------------------- #
     def __retrieve_update_delete_state(self, retrieve_update_delete_url) -> None:
         """ Used for get post put patch delete. """
+        
         self.__combined_list.append(retrieve_update_delete_url)
 
         result = RouteExclusion.objects.all().filter(
@@ -76,6 +77,7 @@ class UrlPatternBuilder:
     # --------------------------------------------------------------------------------------------------------------- #
     def build(self, name=app_constants.APP_NAME):
         """A method used to build the URL Pattern"""
+        
         django_models = ModelHelpers()
         for each_models in django_models.predefined_models:
 
@@ -141,4 +143,5 @@ class UrlPatternBuilder:
                     )
                 )
         else:
+            
             self.__validate()

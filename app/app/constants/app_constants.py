@@ -10,7 +10,7 @@ EXCEPT_MODELS = [
     "LogEntry",
     "Permission",
     "Group",
-    "User",
+    #"User",
     "ContentType",
     "Session",
 ]

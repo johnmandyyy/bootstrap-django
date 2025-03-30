@@ -1,3 +1,17 @@
+"""
+This module is used to create automatic API instances.
+
+Usage:
+    This can be used to return multiple API views assigned to the instance itself.
+
+Example:
+
+    LIST_GET_STATE = APIBuilder(
+        each_models, name, ModelHelpers().get_model_instance(each_models)
+    )
+
+"""
+
 from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
@@ -31,15 +45,17 @@ class APIBuilder:
     # --------------------------------------------------------------------------------------------------------------- #
     def filter_app_name(self) -> str:
         """A method used for subclass to return app model for subclass as property of APIBuilder"""
+
         return self.app_name
 
     # --------------------------------------------------------------------------------------------------------------- #
     def filter_model(self) -> models.Model:
         """A method used for subclass to return instance model for subclass as property of APIBuilder"""
+
         return self.model
 
     # --------------------------------------------------------------------------------------------------------------- #
-    def build(self, has_token=False) -> APIBuilder:
+    def build(self, has_token=False):
         """ A method to create subclasses for auto API object instance. """
 
         class ListGet(ListAPIView):
@@ -51,16 +67,17 @@ class APIBuilder:
 
             pagination_class = None
 
+            # ------------------------------------------------------------------------------------------------------- #
             def get(self, request):
                 """
-                Example usage in ENDPOINT:
-                ?page=1&id=63
-                is equivalent to models.objects.all().filter(id = 63)
+                    Example usage in ENDPOINT:
+                    ?page=1&id=63
+                    is equivalent to models.objects.all().filter(id = 63).
+                    
                 """
 
                 querydict = request.GET
-
-                # for key, value in querydict.items():
+               
                 if "page" in querydict:
                     self.pagination_class = PageNumberPagination
 
@@ -76,6 +93,7 @@ class APIBuilder:
 
         class ListCreate(ListCreateAPIView):
             """ A sub-class without pagination, can be used to create objects and execute insert query. """
+            
             queryset = self.model.objects.all()
             serializer_class = SerializerHelpers().create_serializer(
                 self.model_name, self.app_name
@@ -83,7 +101,9 @@ class APIBuilder:
 
             pagination_class = None
             
+            # ------------------------------------------------------------------------------------------------------- #
             def get(self, request, *args, **kwargs):
+                """ Executes when GET request is trigerred. """
 
                 if has_token == True:
 
@@ -127,7 +147,9 @@ class APIBuilder:
 
                 return response
 
+            # ------------------------------------------------------------------------------------------------------- #
             def post(self, request, *args, **kwargs):
+                """ Executes when POST request is trigerred. """
 
                 response = super().post(request, *args, **kwargs)
 
@@ -156,12 +178,14 @@ class APIBuilder:
             mode = self.filter_model()
             app_name = self.filter_app_name()
 
+            # ------------------------------------------------------------------------------------------------------- #
             def __init__(self):
                 """ Can be used to assign self subclass instance values. """
                 self.filtered_model = self.mode._meta.model_name
                 self.app_name = self.app_name
                 super().__init__()
 
+            # ------------------------------------------------------------------------------------------------------- #
             def override_serializer(self):
                 """ 
                     A method use to override serializer for no depths used for patches. 
@@ -173,12 +197,17 @@ class APIBuilder:
                     self.filtered_model, self.app_name
                 )
 
+            # ------------------------------------------------------------------------------------------------------- #
             def patch(self, request, *args, **kwargs):
+                """ Executes when PATCH request is trigerred. """
+
                 self.override_serializer()
                 return super().patch(request, *args, **kwargs)
 
+            # ------------------------------------------------------------------------------------------------------- #
             def get(self, request, *args, **kwargs):
-                
+                """ Executes when GET request is trigerred. """
+
                 response = super().get(request, *args, **kwargs)
 
                 Logger(

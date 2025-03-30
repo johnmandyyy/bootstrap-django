@@ -10,8 +10,9 @@ class FormBuilder:
     obj = FormBuilder().get_targeted_form("<form name>")
     """
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def __init__(self) -> None:
-        """Initialize based on models."""
+        """ Initialize based on models. """
         
         self.__available_forms = []
         self.create_form()
@@ -29,13 +30,13 @@ class FormBuilder:
 
     # --------------------------------------------------------------------------------------------------------------- #
     def get_all_forms(self) -> list:
-        """Return all forms in string name inside list."""
+        """ Return all forms in string name inside list. """
 
         return self.__available_forms
 
     # --------------------------------------------------------------------------------------------------------------- #
     def get_available_forms(self):
-        """Get the list of available forms."""
+        """ Get the list of available forms. """
 
         form_names = []
         if len(self.__available_forms) > 0:
@@ -46,7 +47,7 @@ class FormBuilder:
 
     # --------------------------------------------------------------------------------------------------------------- #
     def create_form(self):
-        """To create forms for each available models in the database."""
+        """ To create forms for each available models in the database. """
 
         available_models = ModelHelpers().predefined_models
         if len(available_models) > 0:
@@ -60,10 +61,10 @@ class FormBuilder:
 
     # --------------------------------------------------------------------------------------------------------------- #
     def build(self, model_name: str, use_vue = True) -> ModelForm:
-        """A builder method for each model name."""
+        """ A builder method for each model name. """
 
         class GenericForm(forms.ModelForm):
-            """Authentication form which uses boostrap CSS."""
+            """ Authentication form which uses boostrap CSS. """
 
             class Meta:
                 model = ModelHelpers().get_model_instance(model_name)

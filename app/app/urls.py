@@ -19,15 +19,13 @@ try:
     get_update_destroy_patterns = URLConstants.GenericAPI.retrieve_update_delete_patterns
 
 except Exception as e:
-
-    print(e, type(e), "No model found in the database.")
+    
     list_create_patterns = []
     list_get_patterns = []
     get_update_destroy_patterns = []
 
 
 MainView = TemplateView()
-
 
 api_patterns = [
     path(

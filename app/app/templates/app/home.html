@@ -6,7 +6,7 @@
 <div id="{{ obj_name }}">
 
     <div class="row">
-        {{ runtime_instances }}
+        [[ lists ]]
     </div>
 
 </div>
@@ -14,36 +14,45 @@
 <script>
 
 new Vue({
+    
     delimiters: ["[[", "]]"],
     el: "#" + '{{ obj_name }}',
-    data: {},
+    
+    data: {
+
+        loading_state: {},
+        lists: {},
+        url_models: {},
+        endpoints: {},
+
+        info: {
+            'MESSAGE': '',
+            'TITLE': 'Sample Title'
+        },
+
+        props: {},
+        state: {}
+        
+    },
+
     mounted() {
+        
         if (document.querySelector("#" + '{{ obj_name }}')) {
             console.log("Mounted " + '{{ obj_name }}' + " page.")
         }
-        this.get_stack_trace()
+
+        initializeModels(this, ['USER'])
+        universalGet(this,
+            'LIST_GET',
+            'USER',
+            'USER',
+            'USER',
+            {}, ''
+        )
+
     },
-    methods: {
 
-        async get_stack_trace() {
-
-            const authToken = localStorage.getItem('token')
-            const url = '/api/list-create/stacktrace/';
-
-            try {
-                // Send GET request with the cleaned token in the Authorization header
-                const result = await axios.get(url, {
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`
-                    }
-                });
-
-            } catch (error) {
-
-            }
-        },
-        
-    },
+    methods: {},
 });
 
 </script>

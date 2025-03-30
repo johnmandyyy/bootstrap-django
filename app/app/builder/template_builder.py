@@ -7,8 +7,9 @@ import inspect
 class TemplateBuilder:
     """A template builder class."""
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def __init__(self):
-
+        """ Initialize empty. """
         self.__Page = None
         self.__Title = None
 
@@ -29,6 +30,7 @@ class TemplateBuilder:
 
 class Builder:
 
+    # --------------------------------------------------------------------------------------------------------------- #
     def __init__(self):
         """A builder template for views in HTML."""
 
