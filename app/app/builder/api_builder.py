@@ -19,7 +19,7 @@ class APIBuilder:
     
     def __init__(self, model_name: str, app_name: str, model_instance: models) -> None:
         """An API Generics Builder"""
-
+        
         self.model_name = model_name
         self.model = model_instance
         self.app_name = app_name
@@ -29,12 +29,17 @@ class APIBuilder:
         self.get_update_destroy = None
 
     # --------------------------------------------------------------------------------------------------------------- #
-    def filter_model(self):
+    def filter_app_name(self) -> str:
+        """A method used for subclass to return app model for subclass as property of APIBuilder"""
+        return self.app_name
+
+    # --------------------------------------------------------------------------------------------------------------- #
+    def filter_model(self) -> models.Model:
         """A method used for subclass to return instance model for subclass as property of APIBuilder"""
         return self.model
 
     # --------------------------------------------------------------------------------------------------------------- #
-    def build(self, has_token=False):
+    def build(self, has_token=False) -> APIBuilder:
         """ A method to create subclasses for auto API object instance. """
 
         class ListGet(ListAPIView):
@@ -76,6 +81,8 @@ class APIBuilder:
                 self.model_name, self.app_name
             )
 
+            pagination_class = None
+            
             def get(self, request, *args, **kwargs):
 
                 if has_token == True:
@@ -137,11 +144,38 @@ class APIBuilder:
 
         class GetUpdateDestroy(RetrieveUpdateDestroyAPIView):
             """ A sub-class for get post put patch delete using primary key as a default filters. """
+            
             queryset = self.model.objects.all()
             serializer_class = SerializerHelpers().create_serializer(
                 self.model_name, self.app_name
             )
             lookup_field = "pk"
+
+            # Defined methods and Properties.
+            # Returns the APIBuilder instance since self belongs to APIBuilder not the subclass itself.
+            mode = self.filter_model()
+            app_name = self.filter_app_name()
+
+            def __init__(self):
+                """ Can be used to assign self subclass instance values. """
+                self.filtered_model = self.mode._meta.model_name
+                self.app_name = self.app_name
+                super().__init__()
+
+            def override_serializer(self):
+                """ 
+                    A method use to override serializer for no depths used for patches. 
+                    Without this override seralizer patches for foreign key related won't
+                    work as expected due to auto depth.
+                
+                """
+                self.serializer_class = SerializerHelpers().create_serializer_no_depth(
+                    self.filtered_model, self.app_name
+                )
+
+            def patch(self, request, *args, **kwargs):
+                self.override_serializer()
+                return super().patch(request, *args, **kwargs)
 
             def get(self, request, *args, **kwargs):
                 

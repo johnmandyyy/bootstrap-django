@@ -41,6 +41,14 @@ new Vue({
         info: {
             'MESSAGE': 'Sample Message',
             'TITLE': 'Sample Title'
+        },
+
+        props: {
+            'OBJECT': {}
+        },
+
+        state: {
+            'OBJECT': null
         }
         
     },
@@ -53,6 +61,74 @@ new Vue({
     },
 
     methods: {
+
+        async universalPatch(object,
+            endpoint_name, 
+            model_name, 
+            list_item, 
+            loading_state = false, identifier = null, props = null
+            ) {
+
+                const url = object.endpoints[endpoint_name]
+                + object.url_models[model_name] 
+                + object.state[identifier] + "/"
+
+                try {
+
+                    axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken')
+                    const result = await axios.patch(url, object.props[props])
+
+                    if (result) {
+                        await this.universalGet(this, 'LIST_GET', model_name, list_item, loading_state, {page: 1})
+                    }
+
+                } catch (error) {console.log(error)}
+
+            },
+
+            // Async Methods
+            async universalGet (object,
+                endpoint_name, 
+                model_name, 
+                list_item, 
+                loading_state = null,
+                filters = null, custom_url = ''
+                ) {
+                
+                var url = custom_url 
+                    ? custom_url 
+                    : object.endpoints[endpoint_name] + object.url_models[model_name];
+
+
+                const authToken = localStorage.getItem('token')
+
+                try {
+
+                    if (loading_state !== null) {
+                        object.loading_state[loading_state] = true
+                    }
+                    
+                    if (filters !== null) {
+                        url = buildUrl(url, filters)
+                    }
+
+                    const result = await axios.get(url, {
+                        headers: {
+                            'Authorization': `Bearer ${authToken}`
+                        }
+                    });
+
+                    if (result) {
+                        object.lists[list_item] = result.data
+                    }
+                    
+                } catch (error) {
+                    console.log(error)
+                }
+
+                object.loading_state[loading_state] = false
+        
+            },
 
         async get() {
 
