@@ -13,7 +13,7 @@ class TemplateView:
         """Renders the index page."""
 
         assert isinstance(request, HttpRequest)
-
+    
         if not request.user.is_authenticated:
             return redirect("login")
 
@@ -51,7 +51,7 @@ class TemplateView:
 
     def login(self, request):
         assert isinstance(request, HttpRequest)
-
+        
         if request.user.is_authenticated == False:
             return Templates.LOGIN.render_page(request)
 

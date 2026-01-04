@@ -41,3 +41,51 @@ class AppLogs(models.Model):
 class StackTrace(models.Model):
     app_log = models.ForeignKey(AppLogs, on_delete=models.CASCADE)
     description = models.TextField()
+
+# Address
+class TableRegion(models.Model):
+    region_name = models.CharField(unique=True, max_length=50)
+    region_description = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.region_name
+
+
+class TableProvince(models.Model):
+    region = models.ForeignKey(TableRegion, on_delete=models.CASCADE)
+    province_name = models.CharField(max_length=100)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["region"]),  # Index on ForeignKey field
+        ]
+
+    def __str__(self):
+        return str(self.province_name)
+
+class TableMunicipality(models.Model):
+    province = models.ForeignKey(
+        TableProvince, on_delete=models.CASCADE, blank=True, null=True
+    )
+    municipality_name = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return self.municipality_name
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["province"]),  # Index on ForeignKey field
+        ]
+
+
+class TableBarangay(models.Model):
+    municipality = models.ForeignKey(TableMunicipality, on_delete=models.CASCADE)
+    barangay_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.barangay_name
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["municipality"]),  # Index on ForeignKey field
+        ]
