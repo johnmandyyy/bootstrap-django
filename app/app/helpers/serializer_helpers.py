@@ -2,6 +2,18 @@ from rest_framework import serializers
 from django.apps import apps
 from app.models import models
 from django.contrib.auth.models import User
+from rest_framework import serializers
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'first_name', 'last_name']
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)  # Uses built-in method
+        return user
 
 class SerializerHelpers:
     """A predefined for serializer helpers."""
@@ -31,16 +43,14 @@ class SerializerHelpers:
     
     # --------------------------------------------------------------------------------------------------------------- #
     def create_serializer_no_depth(self, model_name: models, app_name: str) -> serializers:
-        
         """
-            Create an automatic serializer for your API that include(s) without the joining of tables.
-            This is used for patch and post request(s) with JOINED tables.
+        Create an automatic serializer for your API that include(s) auto joining of table.
         """
 
-        if str(model_name).lower() == 'user':
+        if model_name == 'User' or model_name == 'user':
             django_model = User
         else:
-            print(app_name, type(app_name))
+            # print(app_name, type(app_name), model_name)
             django_model = apps.get_model(app_label=str(app_name), model_name=model_name)
 
         class AutoSerializer(serializers.ModelSerializer):
