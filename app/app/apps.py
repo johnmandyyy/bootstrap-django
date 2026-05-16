@@ -7,4 +7,5 @@ class MainConfig(AppConfig):
     name = 'app'
 
     def ready(self):
+        # pass
         execute_task.start()
